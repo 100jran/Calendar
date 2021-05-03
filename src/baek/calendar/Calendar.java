@@ -1,7 +1,5 @@
 package baek.calendar;
 
-import java.util.Scanner;
-
 public class Calendar {
 
 	private static final int[] maxDayOfMonth = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -10,29 +8,25 @@ public class Calendar {
 		return maxDayOfMonth[month];
 	}
 
+	public void printCalendar(int month) {
+		
+		int days = get_maxDayOfMonth(month);
+				
+		System.out.println(" SU MO TU WE TH FR SA");
+		System.out.println("---------------------");
+		
+		for(int i = 1; i <= days; i++) {
+			
+			System.out.printf("%3d", i);
+			
+			if (i % 7 == 0) {
+				System.out.println();
+			}
+		}
+		System.out.printf("\n\n");
+	}
+
 	public static void main(String[] args) {
 
-		Scanner scanner = new Scanner(System.in);
-		Calendar cal = new Calendar();
-
-		while (true) {
-			System.out.println("월을 입력하세요.");
-			System.out.print("MONTH> ");
-			int month = scanner.nextInt();
-
-			if (month == -1) {
-				break;
-			}
-			
-			if (month > 12) {
-				System.out.println();
-				continue;
-			}
-
-			System.out.printf("%d월은 %d일까지 입니다.\n\n", month, cal.get_maxDayOfMonth(month));
-		}
-		
-		System.out.println("종료");
-		scanner.close();
 	}
 }
