@@ -3,43 +3,78 @@ package baek.calendar;
 import java.util.Scanner;
 
 public class Prompt {
+	
+	public void printMenu() {
+		
+		System.out.println("# a = 일정등록");
+		System.out.println("# b = 일정검색");
+		System.out.println("# c = 달력보기");
+		System.out.println("# d = 도움말");
+		System.out.println("# q = 종료");
+	}
 
 	public void runPrompt() {
+		
+		printMenu();
 		
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
 		
-		int year	= 0;
-		int month	= 0;
-
 		while (true) {
 			
-			System.out.println("년도를 입력하세요.(EXIT : -1)");
-			System.out.print("YEAR> ");
-			year = scanner.nextInt();
+			System.out.println("# 명령 = a, b, c, d, q");
 			
-			if (year == -1) {
+			String cmd = scanner.next();
+			if (cmd.equals("a")) {
+				cmdRegister();
+			} else if (cmd.equals("b")) {
+				cmdSearch();
+			} else if (cmd.equals("c")) {
+				cmdCal(scanner, cal);
+			} else if (cmd.equals("d")) {
+				printMenu();
+			} else if (cmd.equals("q")) {
 				break;
 			}
-
-			System.out.println("월을 입력하세요.");
-			System.out.print("MONTH> ");
-			month = scanner.nextInt();
-			System.out.println();
-			
-			if (month > 12 || month < 1) {
-				System.out.println("입력오류");
-				System.out.println();
-				continue;
-			}
-			
-			cal.printCalendar(year, month);
 		}
 		
 		System.out.println("종료");
-		scanner.close();
 	}
 	
+	private void cmdCal(Scanner scan, Calendar cal) {
+
+		int year	= 0;
+		int month	= 0;
+		
+		System.out.println("년도를 입력하세요.");
+		System.out.print("YEAR> ");
+		year = scan.nextInt();
+		
+		System.out.println("월을 입력하세요.");
+		System.out.print("MONTH> ");
+		month = scan.nextInt();
+		System.out.println();
+		
+		if (month > 12 || month < 1) {
+			System.out.println("입력오류");
+			System.out.println();
+			return;
+		}
+		
+		cal.printCalendar(year, month);
+	}
+	
+
+	private void cmdSearch() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void cmdRegister() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static void main(String[] args) {
 		
 		Prompt prt = new Prompt();
