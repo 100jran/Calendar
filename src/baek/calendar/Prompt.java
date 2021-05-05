@@ -13,6 +13,27 @@ public class Prompt {
 		System.out.println("# d = 도움말");
 		System.out.println("# q = 종료");
 	}
+	
+	public int parseDay(String weekday) {
+		switch(weekday) {
+		case "SU" :
+			return 0;
+		case "MO" :
+			return 1;
+		case "TU" :
+			return 2;
+		case "WE" :
+			return 3;
+		case "TH" :
+			return 4;
+		case "FR" :
+			return 5;
+		case "SA" :
+			return 6;
+		default :
+			return 0;
+		}
+	}
 
 	public void runPrompt() throws ParseException {
 
@@ -21,27 +42,34 @@ public class Prompt {
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
 
-		while (true) {
+		boolean isLoop = true;
+		while (isLoop) {
 
 			System.out.println("# 명령 = a, b, c, d, q");
-
+	
 			String cmd = scanner.next();
-			if (cmd.equals("a")) {
+			switch(cmd) {
+			case "a" :
 				cmdRegister(scanner, cal);
-			} else if (cmd.equals("b")) {
+				break;
+			case "b" :
 				cmdSearch(scanner, cal);
-			} else if (cmd.equals("c")) {
+				break;
+			case "c" :
 				cmdCal(scanner, cal);
-			} else if (cmd.equals("d")) {
+				break;
+			case "d" :
 				printMenu();
-			} else if (cmd.equals("q")) {
+				break;
+			case "q" :
+				isLoop = false;
 				break;
 			}
 		}
-
+		
 		System.out.println("종료");
 	}
-
+		
 	private void cmdCal(Scanner scan, Calendar cal) {
 
 		int year = 0;
