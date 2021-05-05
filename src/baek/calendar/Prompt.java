@@ -93,15 +93,20 @@ public class Prompt {
 		cal.printCalendar(year, month);
 	}
 
-	private void cmdSearch(Scanner scan, Calendar cal) throws ParseException {
+	private void cmdSearch(Scanner scan, Calendar cal) {
 
 		System.out.println("일정검색");
 
 		System.out.println("날짜를 입력해 주세요.(yyyy-MM-dd)");
 		String date = scan.next();
-		String plan = cal.searchPlan(date);
-		System.out.println(plan);
-
+		PlanItem plan;
+		plan = cal.searchPlan(date);
+		
+		if (plan != null) {
+			System.out.println(plan.detail);
+		} else {
+			System.out.println("일정이 없습니다.");
+		}
 	}
 
 	private void cmdRegister(Scanner scan, Calendar cal) throws ParseException {

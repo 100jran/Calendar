@@ -1,7 +1,6 @@
 package baek.calendar;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -13,23 +12,22 @@ public class Calendar {
 	private static final int[] leap_maxDayOfMonth 
 			= { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	private HashMap<Date, String>planMap;
+	private HashMap<Date, PlanItem>planMap;
 	
 	public Calendar() {
-		planMap = new HashMap<Date, String>();
+		planMap = new HashMap<Date, PlanItem>();
 	}	
 	
 	public void registerPlan(String strDate, String plan) throws ParseException {
 	
-		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
-		planMap.put(date, plan);
+		PlanItem plni = new PlanItem(strDate, plan);
+		planMap.put(plni.getDate(), plni);
 	}
 	
-	public String searchPlan(String strDate) throws ParseException {
+	public PlanItem searchPlan(String strDate) {
 
-		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
-		String plan = planMap.get(date);
-		return plan;
+		Date date = PlanItem.getDateFromString(strDate);
+		return planMap.get(date);
 	}
 	
 	public boolean isLeapYear(int year) {
