@@ -1,8 +1,13 @@
 package baek.calendar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Calendar {
 
@@ -12,16 +17,55 @@ public class Calendar {
 	private static final int[] leap_maxDayOfMonth 
 			= { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
+	private static final String SAVE_FILE = "calendar.dat";
+	
 	private HashMap<Date, PlanItem>planMap;
 	
 	public Calendar() {
 		planMap = new HashMap<Date, PlanItem>();
+		File file = new File(SAVE_FILE);
+			
+		if (!file.exists()) {
+			System.err.println("NO SAVE FILE");
+			return;
+		}
+		
+		try {
+			Scanner scan = new Scanner(file);
+			
+			while (scan.hasNext()) {
+				
+				String line = scan.nextLine();
+				String[] words = line.split(",");
+				
+				String date = words[0];
+				String detail = words[1].replaceAll("\"", "");
+				PlanItem pi = new PlanItem(date, detail);
+				planMap.put(pi.getDate(), pi);
+				
+			}
+			scan.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 	}	
 	
 	public void registerPlan(String strDate, String plan) throws ParseException {
 	
 		PlanItem plni = new PlanItem(strDate, plan);
 		planMap.put(plni.getDate(), plni);
+		
+		File file = new File(SAVE_FILE);
+		String item = plni.saveString();
+		try {
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(item);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public PlanItem searchPlan(String strDate) {
@@ -99,16 +143,4 @@ public class Calendar {
 		int weekday = (count + STANDAD_WEEKDAY) % 7;
 		return weekday;
 	}
-	
-	public static void main(String[] args) throws ParseException {
-		Calendar cal = new Calendar();
-		System.out.println(cal.get_weekday(1970, 1, 1) == 4);
-		System.out.println(cal.get_weekday(1971, 1, 1) == 5);
-		System.out.println(cal.get_weekday(1972, 1, 1) == 6);
-		System.out.println(cal.get_weekday(1973, 1, 1) == 1);
-		System.out.println(cal.get_weekday(1974, 1, 1) == 2);
-		
-		cal.registerPlan("2021-05-22", "eat");
-		System.out.println(cal.searchPlan("2021-05-22").equals("eat"));
-	} 
 }
